@@ -1,0 +1,10 @@
+{% extends "head.html" %}
+{% block content %}
+<h3>Current State of the GoodCoin Blockchain</h3>
+<h5>Chain length: {{ blockchain.length }} </h5>
+<ul id="blockchain">
+  {% for item in blockchain.chain %}
+  <li>{{ item }} </li>
+  {% endfor %}
+</ul>
+{% endblock %}

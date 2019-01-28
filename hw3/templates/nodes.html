@@ -1,0 +1,22 @@
+{% extends "head.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <h3>Node Peer Information</h3>
+    <ul id="peers">
+      {% for item in peers %}
+      <li><a href=http://{{item}}/nodes>{{item}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="col-md-6">
+    <h3>Node Key Information</h3>
+    <ul>
+      <li>Node Public Key: {{ key_info[0] }}</li>
+      <li>Node Private Key: {{ key_info[1] }}</li>
+  </div>
+</div>
+<div class="row">
+  <img src='/static/network.png'/>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "head.html" %}
+{% block content %}
+<h3>Current Valid Transactions</h3>
+<h5>Number of TXs: {{ txs.num_txs}} </h5>
+<ul id="txs">
+  {% for item in txs.txs %}
+  <li>{{ item }} </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

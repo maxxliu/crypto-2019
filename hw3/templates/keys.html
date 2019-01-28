@@ -1,0 +1,32 @@
+{% extends "head.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-4">
+    <h3>Generate Keypair</h3>
+    <p>Press the button to generate a new public/private keypair and a
+    related GoodCoin address. Note that the address is simply a base58
+    encoding of your public key, so only the address and the private
+    key (also base58 encoded for your convenience) are included here. When creating new transactions using
+    this keypair, you will only need to provide the address and private key in order to
+    properly sign your transaction. This is because you are including
+    the public key implicitly when you provide the address, since the
+    address is just a more user-friendly encoding of the same
+    information. We choose to use the term address here rather than
+    public key in order to be consistent with the terminology used in
+    Bitcoin and other mainstream cryptocurrencies. </p>
+    <form action="{{ url_for('generate_keypair') }}" method="post">
+      <button type="submit" class="btn
+                                   btn-primary">Get new keys!</button>
+    </form>
+  </div>
+  <div class="col-md-8">
+    {% if mine_info != '' %}
+    <ul id="mine_info">
+      <li>Address (aka Public Key): {{key_info.public_key}}</li>
+      <li>Private Key: {{ key_info.secret_key }} </li>
+      </li>
+    </ul>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

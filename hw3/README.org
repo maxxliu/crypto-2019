@@ -1,0 +1,41 @@
+#+TITLE: The GoodCoin Overview
+#+AUTHOR: Emily Willson
+#+DATE: 1/23/19
+
+* What is the GoodCoin?
+   The GoodCoin is a toy blockchain system designed to allow users to
+   explore various blockchain properties. The GoodChain is fully
+   customizable -- users can update its proof of work, transaction
+   structure, block schedule, etc. The GoodCoin is meant to serve as a
+   teaching tool for ECON23040, taught the University of Chicago in
+   Winter 2019.
+
+* Getting Started
+   1) Make sure you have a working version of Python3.
+   2) Download the GoodCoin source code. This can be done by cloning
+      this repository.
+   3) Enter the goodcoin directory.
+   4) Run "python3 server.py" from the goodcoin root folder. Don't include any additional
+      arguments. 
+   5) Open a web browser (Chrome is great) and go to
+      http://127.0.0.1:5000. This should pull up the GoodCoin
+      homepage. Follow the directions on this page to use the
+      blockchain.
+      
+* Assignment 2: Running Multiple Nodes
+Follow these instructions if you want to run multiple GoodCoin nodes
+at once. This will be very helpful for assignment 2.
+  1) Open four separate terminal windows (tmux would be a helpful tool
+     for this, but opening up four separate terimnals also works great). 
+  2) Run on three of the windows: "python3 server.py -a http://127.0.0.1:x000" for x in 2,3,4
+  3) Run on the final screen: "python3 server.py -s http://127.0.0.1:2000,http://127.0.0.1:3000,http://127.0.0.1:4000 -a http://127.0.0.1:5000
+  4) Now you are running a 4 node blockchain!
+  5) If you navigate to the URL http://127.0.0.1:x000/mine on any of
+     the nodes (substituting in the correct number for x), you will
+     generate a new block and therefore a new version of the
+     blockchain.
+  6) Go to a node other than the one on which you mined the block, and
+     refresh the blockchain tab. You should see an updated version of
+     the blockchain!
+* Assignment 3: Running a Playbook
+  TODO: put this in. 

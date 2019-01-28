@@ -1,0 +1,32 @@
+{% extends "head.html" %}
+{% block content %}
+<h1 >Welcome to the GoodCoin!</h1>
+<p>The GoodCoin is a simple, extensible blockchain to be used for
+  teaching purposes in ECON23040. Users can control actions in the blockchain
+  by visiting the various tabs in the navigation bar above. These
+  tabs and their functionality are described below.</p>
+
+<ul>
+  <li>Blockhain: View the current state of the blockchain.</li>
+  <li>UTXO: View the UTXO (unspent transaction output) pool. Helpful
+  for figuring out which transaction outputs are available to be spent
+  in a new transaction.</li>
+  <li>New TX: Create a new transaction. Recall that this
+  blockchain is UTXO-formatted, which means every input to a
+  transaction must reference a previous output in the
+  blockchain. This requires some special formatting for the
+  transactions in order to properly reference the UTXO pool. Examining
+  the UTXO and transaction tabs, as well as new_transacation and
+  valid_tx methods in blockchain.py should be helpful along these
+  lines. Additionally, note that digital signatures are not employed
+  to verify that the recipient of an output is the only person allowed
+  to spend that output later. What are the security implications of
+    this choice?</li>
+  <li>TXs: View a list of current, unmined transactions. </li>
+  <li>Mining: Mine a new block. </li>
+  <li>Nodes: Allows you to see a list of your peer as well as your
+    local node's public/private key information.</li>
+  <li>Generate Keys: Generate a new public/private keypair.</li>
+  
+</ul>
+{% endblock %}

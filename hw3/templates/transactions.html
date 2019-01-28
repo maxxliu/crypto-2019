@@ -1,0 +1,66 @@
+{% extends "head.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-5">
+    <h3>Add New Transaction</h3>
+    <p>Use this form to generate a new transaction to add to the
+      blockchain. Since the GoodCoin uses the
+      unspent-transaction-output format to validate transactions, each input to a new
+      transaction must be a reference to a previously generated
+      output. The form gives examples of the required format for
+      transaction inputs and outputs. Furthermore, the form requires the payee in the
+      transaction to provide their private key with which to sign the
+      transaction. This private key corresponds to the address from
+      which GoodCoins are being spent. Note: though multiple transaction
+      outputs may be spent in a single transaction, but all must be
+      associated with the same address.</p>
+    <form action="{{ url_for('new_transaction') }}" method="post">
+      <div class="form-group">
+        <label for="inputs">Transaction Inputs</label>
+        <input type="text" class="form-control" id="inputs" name="inputs"
+               placeholder="[{'addr':'3ck39vw52dlk2', 'tx_hash':'abcd', 'output_index':0, 'amount':2}]">
+        <small id="inputHelp" class="form-text
+                                     text-muted">Each transaction
+                                     input must be an element from
+                                     the UTXO pool.</small>
+      </div>
+      <div class="form-group">
+        <label for="outputs">Transaction Outputs</label>
+        <input type="text" class="form-control" id="outputs"
+               name="outputs" placeholder="[{'addr':'b8179DJtj3vjEJ3', 'amount':2}]">
+        <small id="inputHelp" class="form-text
+                                     text-muted">Address of transaction
+                                     recipient(s) and amount they should receive.</small>
+      </div>
+      <div class="form-group">
+        <label for="priv_key">Private Key</label>
+        <input type="text" class="form-control" id="priv_key"
+               name="priv_key" placeholder="sd3B85kxw69VMke0">
+        <small id="inputHelp" class="form-text
+                                     text-muted">Private key
+                                     corresponding to public
+                                     key/address of inputs to
+                                     transactions (obtained from
+                                     Generate Keys tab). Used to sign
+                                     transaction and ensures you are
+                                     only spending funds belonging to
+                                     you. Do NOT put this in quotes.</small>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Add
+        Transaction</button>
+    </form>
+  </div>
+  <div class="col-md-7">
+    <div class="row">
+      {% if transaction_info != '' %}
+      <ul id="transactions">
+        <li>Message: {{transaction_info._message}}</li>
+        <li>Inputs: {{ transaction_info.ins }} </li>
+        <li>Outputs: {{ transaction_info.outs }} </li>
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

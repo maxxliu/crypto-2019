@@ -1,0 +1,31 @@
+{% extends "head.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-4">
+    <h3>Mine A New Block</h3>
+    <p>Press the button to mine a new block.</p>
+    <form action="{{ url_for('mine') }}" method="post">
+      <button type="submit" class="btn
+                                   btn-primary">MINE!</button>
+    </form>
+  </div>
+  <div class="col-md-8">
+    {% if mine_info != '' %}
+    <ul id="mine_info">
+      <li>Message: {{mine_info.message}}</li>
+      <li>New Block Height: {{ mine_info.index }} </li>
+      <li>New Block Proof: {{ mine_info.proof }} </li>
+      <li>Previous Block Hash: {{ mine_info.previous_hash }} </li>
+      <li>Transactions:
+        {{ mine_info.transactions }}
+        <!-- <ul id="transactions"> -->
+        <!--   {% for item in mine_info.transactions[1] %} -->
+        <!--   <li>{{ item }} </li> -->
+        <!--   {% endfor %} -->
+        <!-- </ul> -->
+      </li>
+    </ul>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

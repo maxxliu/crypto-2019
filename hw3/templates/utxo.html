@@ -1,0 +1,11 @@
+{% extends "head.html" %}
+{% block content %}
+<h3>Current State of the GoodCoin UTXO Pool</h3>
+<h5>Number of UTXOs: {{ utxo.num_utxos}} </h5>
+<ul id="utxos">
+  {% for item in utxo.utxos %}
+  <li>{{ item }} </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
