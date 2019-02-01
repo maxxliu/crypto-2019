@@ -27,7 +27,7 @@ def test_bad_node_mining():
     time.sleep(1)
     n.stop()
     return True
-        
+
 if __name__ == '__main__':
     try:
         network = Network()
@@ -44,7 +44,23 @@ if __name__ == '__main__':
                         {'type':Action.NEW_TX,'n1':'node3','n2':'node7'},
                         {'type':Action.MINE,'n1':'node7'},
                         {'type':Action.RESOLVE_NODES, 'nodes':['node0', 'node3', 'node4', 'node5', 'node6']},
+                        # max's attack with flipped nodes 1 and 8
+                        {'type': Action.FLIP, 'n1': 'node1'}, # flipped node1
+                        {'type': Action.FLIP, 'n1': 'node8'}, # flipped node8
+                        {'type':Action.MINE,'n1': 'node1'},
+                        {'type':Action.RESOLVE_NODES, 'nodes': ['node1', 'node8']},
+                        {'type':Action.MINE,'n1': 'node1'},
+                        {'type':Action.RESOLVE_NODES, 'nodes': ['node1', 'node8']},
+                        {'type':Action.MINE,'n1': 'node1'},
+                        {'type':Action.RESOLVE_NODES, 'nodes': ['node1', 'node8']},
+                        {'type':Action.MINE,'n1': 'node1'},
+                        {'type':Action.RESOLVE_NODES, 'nodes': ['node1', 'node8']},
+                        {'type': Action.FLIP, 'n1': 'node1'},
+                        {'type': Action.FLIP, 'n1': 'node8'},
+                        {'type':Action.MINE,'n1':'node3'},
+                        {'type':Action.RESOLVE_ALL},
                     ])
+        book.save_playbook('maxliu.playbook')
         book.play_book()
         logging.info("========All Actions Played, Press Ctrl-C to Stop========")
         while 1: time.sleep(60)
@@ -53,4 +69,3 @@ if __name__ == '__main__':
     finally:
         network.stop()
         logging.info("Network Stopped")
-

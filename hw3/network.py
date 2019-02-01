@@ -2,8 +2,8 @@
 This file holds the code to construct a more robust version of the GoodCoin network and allows users to define arbitrarily topologies for the network.
 
 This is the highest level of the GoodCoin stack (if it can be called a stack).
-This defines the nodes in the network and how they interact. 
-The goal is to make it easy for students to control the network. 
+This defines the nodes in the network and how they interact.
+The goal is to make it easy for students to control the network.
 
 '''
 # Normal packages
@@ -16,6 +16,9 @@ import subprocess as sub
 import matplotlib.pyplot as plt
 # GoodCoin packages
 import server
+
+import json
+import hashlib
 
 logging.basicConfig(level=logging.INFO)
 
@@ -37,7 +40,7 @@ class Node():
         self.peers = peers
         self.role = role
         self.url = 'http://' + self.addr +':' + self.port
-        self.good = True # Good nodes behave nicely. Bad nodes don't. 
+        self.good = True # Good nodes behave nicely. Bad nodes don't.
 
     def __repr__(self):
         return 'Node ' + self.name + '; Address: ' + self.addr + ':' + self.port + '; Peers: ' + ','.join([str(p) for p in self.peers])
@@ -105,7 +108,7 @@ class Network():
         '''
         Flips good node into bad node and vice versa.
 
-        NOTE: bad nodes *must* be peers in the network in order to interact. 
+        NOTE: bad nodes *must* be peers in the network in order to interact.
         '''
         self.topology[node].good =  not self.topology[node].good
         self.topology[node].flip_node()
@@ -136,8 +139,35 @@ class Network():
                 last_name = node_name
             if conflict == False:
                 logging.info("Resolved")
+                # after successfully resolving everything, display the chain
+                # pick any of the chains
+                chain = self.topology[node_names[0]].chain()
+                l = []
+                for block in chain:
+                    l.append(block['previous_hash'])
+                if len(chain) > 0:
+                    block_string = json.dumps(chain[-1], sort_keys=True).encode()
+                    last_block = hashlib.sha256(block_string).hexdigest()
+                    l.append(last_block)
+                # just print it
+                print('=====DISPLAYING HASH LIST=====')
+                print(l)
+                print('==============================')
                 return
             time.sleep(1)
+        for i in range(9):
+            chain = self.topology[node_names[i]].chain()
+            l = []
+            for block in chain:
+                l.append(block['previous_hash'])
+            if len(chain) > 0:
+                block_string = json.dumps(chain[-1], sort_keys=True).encode()
+                last_block = hashlib.sha256(block_string).hexdigest()
+                l.append(last_block)
+            # just print it
+            print('=====DISPLAYING HASH LIST=====')
+            print(l)
+            print('==============================')
         logging.error("Failed to resolve nodes")
 
     def tx(self, n1, n2):
@@ -241,14 +271,14 @@ class Network():
 
     def define_topology(self):
         '''
-        Note to user: probably best to draw out the topology you want before implementing it. 
-        Asks for user input to define network topology, then loads this into the graph. 
-        Will save the topology file if the user wants. 
+        Note to user: probably best to draw out the topology you want before implementing it.
+        Asks for user input to define network topology, then loads this into the graph.
+        Will save the topology file if the user wants.
         '''
 
         addnode = 'y'
 
-        # Enter loop to generate topology until user is done. 
+        # Enter loop to generate topology until user is done.
         while addnode == 'y':
             name = input('Enter node name (e.g. node1): ')
             addr = input('Enter IP address for node (e.g. 127.0.0.1): ')
@@ -263,7 +293,7 @@ class Network():
                     addpeers = input('Would you like to define another peer for this node? (y/n) ')
             # Store topology in file, just in case the user wants to save it.
             self.topology[name] = Node(addr, port, peers)
-            # Actually add this node to the graph. 
+            # Actually add this node to the graph.
             self.add_node(name, addr, port, peers)
             print('Node %s added! \n' % name)
             addnode = input('Would you like to add another node? (y/n) ')
@@ -334,7 +364,7 @@ class Network():
         :param max_distance: <int> Maximum distance between nodes.
         :param max_num_peers: <int> Maximum number of peers a node can have.
         :param base_url: <str> The URL for the nodes (assume all run on localhost for time being)
-        :param base_port: <int> Starting number for port -- will increment. 
+        :param base_port: <int> Starting number for port -- will increment.
         '''
         # Generate a list of all nodes.
         for i in range(num_nodes):
@@ -378,7 +408,7 @@ class Network():
     def draw_graph(self):
         '''
         Plots a very simple graph visualization.
-        
+
         '''
         color_map = []
         for node in self.graph:
@@ -403,12 +433,3 @@ class Network():
         Returns the shortest path between two nodes.
         '''
         return nx.shortest_path(self.graph, node1, node2)
-
-    
-
-
-    
-    
-
-
-
